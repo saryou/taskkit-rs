@@ -1,0 +1,36 @@
+[package]
+name = "taskkit"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = ["memory", "redis", "postgres", "mysql"]
+memory = []
+redis = ["dep:redis"]
+postgres = ["dep:sqlx", "sqlx/postgres", "sqlx/runtime-tokio"]
+mysql = ["dep:sqlx", "sqlx/mysql", "sqlx/runtime-tokio"]
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_bytes = "0.11"
+bytes = "1.0"
+uuid = { version = "1.0", features = ["v4", "v5"] }
+chrono = "0.4"
+thiserror = "1.0"
+tracing = "0.1"
+futures-util = "0.3"
+
+# Optional dependencies
+redis = { version = "0.27", features = [
+    "tokio-comp",
+    "connection-manager",
+], optional = true }
+
+sqlx = { version = "0.8", default-features = false, features = [
+    "runtime-tokio",
+    "macros",
+    "migrate",
+], optional = true }
